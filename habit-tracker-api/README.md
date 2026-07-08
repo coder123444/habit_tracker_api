@@ -60,16 +60,16 @@ All routes below require `Authorization: Bearer <token>`.
 ## Database Schema
 
 Three related tables:
-- `users` — accounts
-- `habits` — belongs to a user
-- `completion_logs` — belongs to a habit, one row per completed day
+- `users` : accounts
+- `habits` : belongs to a user
+- `completion_logs` : belongs to a habit, one row per completed day
   (unique constraint on `(habit_id, completed_on)` prevents double-logging)
 
 See `schema.sql` for full definitions and indexes.
 
 ## Notable design choices
 - **Streak calculation** is done in application code (not a single SQL query)
-  for readability — it walks completion dates backward from today/yesterday
+  for readability  it walks completion dates backward from today/yesterday
   and counts consecutive days.
 - **Ownership checks** (`assertOwnership`) run before every update/delete/log
   so one user can never modify another user's habits, even by guessing IDs.
